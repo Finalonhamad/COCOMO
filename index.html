@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COCOMO Estimation System</title>
+    <meta name="description" content="Software cost estimation using COCOMO models.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">COCOMO Estimator</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-btn active" data-target="view-home">Home</button>
+                <button class="nav-btn" data-target="view-cocomo1">COCOMO I</button>
+                <button class="nav-btn" data-target="view-cocomo2">COCOMO II</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- View: Home -->
+        <section id="view-home" class="view active fade-in">
+            <div class="hero">
+                <div class="hero-badge">Smart Cost Estimation</div>
+                <h1 class="hero-title">Plan your Software Projects with Precision.</h1>
+                <p class="hero-description">Estimate the effort, cost, and time required for your software project using industry-standard algorithmic COCOMO models. Smart, interactive, and beautifully visualized.</p>
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-large btn-nav-trigger" data-target="view-cocomo1">
+                        <span>COCOMO I</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                    <button class="btn btn-outline btn-large btn-nav-trigger" data-target="view-cocomo2">
+                        <span>COCOMO II</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+            
+            
+                </div>
+            </div>
+
+            <div class="team-section mt-8 fade-in">
+                <h2 class="section-title">فريق العمل</h2>
+                
+                <div class="supervisor-card">
+                    <div class="avatar-wrap">
+                        <img src="images/دكتور محمد الحداد.jpeg" alt="دكتور محمد الحداد" class="avatar-img">
+                    </div>
+                    <div class="supervisor-info">
+                        <span class="role-badge">إشراف الدكتور</span>
+                        <h3>د. محمد الحداد</h3>
+                    </div>
+                </div>
+
+                <div class="team-members">
+                    <h3 class="team-subtitle">تنفيذ وتطوير الطلاب:</h3>
+                    <div class="members-container">
+                        <div class="member-name">ريان عوض القرني</div>
+                        <div class="member-name">حمد القريقري</div>
+                        <div class="member-name">راكان السلمي</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: COCOMO 1 -->
+        <section id="view-cocomo1" class="view">
+            <div class="page-header">
+                <h2>COCOMO I Estimation</h2>
+                <p>Basic & Intermediate Model (1981)</p>
+            </div>
+            
+            <div class="layout-grid">
+                <div class="card form-card">
+                    <form id="form-cocomo1" class="estimation-form">
+                        <div class="form-group">
+                            <label for="c1-loc">Kilo Lines of Code (KLOC) <span class="required">*</span></label>
+                            <input type="number" step="any" id="c1-loc" placeholder="e.g. 400" required min="0.1">
+                            <div class="hint" id="c1-loc-hint">Waiting for KLOC input...</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="c1-type">Project Type <span class="required">*</span></label>
+                            <select id="c1-type" required>
+                                <option value="" disabled selected>Select project type</option>
+                                <option value="organic">Organic (Small, simple, well-understood)</option>
+                                <option value="semidetached">Semi-detached (Medium, mixed complexity)</option>
+                                <option value="embedded">Embedded (Complex, rigid constraints)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Calculate Estimation
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="c1-results" class="results-section hidden">
+                    <div class="stats-grid">
+                        <div class="stat-card prime">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-content">
+                                <h4>Estimated Effort</h4>
+                                <div class="stat-value"><span id="c1-res-effort">0</span> <span class="unit">PM</span></div>
+                            </div>
+                        </div>
+                        <div class="stat-card prime">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-content">
+                                <h4>Development Time</h4>
+                                <div class="stat-value"><span id="c1-res-time">0</span> <span class="unit">Months</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card chart-card mt-6">
+                        <h3>Effort vs Time Breakdown</h3>
+                        <div class="chart-container">
+                            <canvas id="c1-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card comparison-prompt mt-6 hidden fade-in" id="c1-compare-prompt">
+                        <div class="prompt-content">
+                            <div class="prompt-icon">🤔</div>
+                            <div class="prompt-text">
+                                <h3>Compare with COCOMO II?</h3>
+                                <p>See how this estimation looks with the modern COCOMO II model.</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" id="btn-compare-from-c1">Compare Models</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: COCOMO 2 -->
+        <section id="view-cocomo2" class="view">
+            <div class="page-header">
+                <h2>COCOMO II Estimation</h2>
+                <p>Post-Architecture Model</p>
+            </div>
+            
+            <div class="layout-grid">
+                <div class="card form-card">
+                    <form id="form-cocomo2" class="estimation-form">
+                        <div class="form-group">
+                            <label for="c2-loc">Size (KLOC) <span class="required">*</span></label>
+                            <input type="number" step="any" id="c2-loc" placeholder="e.g. 100" required min="0.1" value="100">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="c2-a">Constant A <span class="required">*</span></label>
+                            <input type="number" step="any" id="c2-a" value="2.94" required readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="c2-b">Exponent B (Scale) <span class="required">*</span></label>
+                            <input type="number" step="any" id="c2-b" value="1.17" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="c2-m">Multiplier M (EAF) <span class="required">*</span></label>
+                            <input type="number" step="any" id="c2-m" value="0.825" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full mt-4">
+                            Calculate Estimation
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="c2-results" class="results-section hidden">
+                    <div class="stats-grid">
+                        <div class="stat-card prime">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-content">
+                                <h4>Estimated Effort</h4>
+                                <div class="stat-value"><span id="c2-res-effort">0</span> <span class="unit">PM</span></div>
+                            </div>
+                        </div>
+                        <div class="stat-card prime">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-content">
+                                <h4>Development Time</h4>
+                                <div class="stat-value"><span id="c2-res-time">0</span> <span class="unit">Months</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card chart-card mt-6">
+                        <h3>Effort vs Time Breakdown</h3>
+                        <div class="chart-container">
+                            <canvas id="c2-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card comparison-prompt mt-6 hidden fade-in" id="c2-compare-prompt">
+                        <div class="prompt-content">
+                            <div class="prompt-icon">🤔</div>
+                            <div class="prompt-text">
+                                <h3>Compare with COCOMO I?</h3>
+                                <p>See how this estimation compares to the classic COCOMO I model.</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" id="btn-compare-from-c2">Compare Models</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Compare -->
+        <section id="view-compare" class="view">
+            <div class="page-header">
+                <h2>Model Comparison</h2>
+                <p>Side-by-side analysis of classic vs modern cost estimation.</p>
+            </div>
+            
+            <div class="card p-xl">
+                <div class="stats-grid wide">
+                    <div class="stat-card highlight-blue">
+                        <div class="stat-content text-center">
+                            <h4>COCOMO I Effort</h4>
+                            <div class="stat-value"><span id="comp-c1-effort">0</span> <span class="unit">PM</span></div>
+                        </div>
+                    </div>
+                    <div class="stat-card highlight-purple">
+                        <div class="stat-content text-center">
+                            <h4>COCOMO II Effort</h4>
+                            <div class="stat-value"><span id="comp-c2-effort">0</span> <span class="unit">PM</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container mt-8" style="height: 400px;">
+                    <canvas id="compare-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
